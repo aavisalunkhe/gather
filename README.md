@@ -4,6 +4,8 @@ Gather is a local event guide for finding something to do and meeting people nea
 
 **Live site:** [gather-api-n1kd.onrender.com](https://gather-api-n1kd.onrender.com)
 
+![Gather homepage](docs/gather-homepage.png)
+
 ## Features
 
 - Browse upcoming events in Bengaluru
