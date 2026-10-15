@@ -1,18 +1,56 @@
-# Gather — Event Studio
+# Gather
 
-A full-stack event discovery and RSVP app built with MongoDB, Express, React, and Node.
+Gather is a local event guide for finding something to do and meeting people nearby. Browse the listings, filter by category, save a spot, or share an event of your own.
+
+**Live site:** [gather-api-n1kd.onrender.com](https://gather-api-n1kd.onrender.com)
+
+## Features
+
+- Browse upcoming events in Bengaluru
+- Filter events by category
+- RSVP by email and see current attendance
+- Publish an event with its date, venue, host, price, and capacity
+- Load a small set of sample events when the database is empty
+
+## Built with
+
+- React and Vite
+- Node.js and Express
+- MongoDB Atlas and Mongoose
+- Render
 
 ## Run locally
 
-1. Install Node.js 20+ and MongoDB (or create a MongoDB Atlas cluster).
-2. Copy `server/.env.example` to `server/.env` and set `MONGODB_URI`.
-3. From the project root run `npm install`, then `npm run dev`.
-4. Open the Vite URL printed in the terminal. The Express API runs on port 5000.
+You need Node.js 20 or newer and a MongoDB connection string. A local MongoDB instance or an Atlas cluster will work.
 
-## Deploy
+1. Install dependencies from the project root:
 
-This project is configured as one Render web service: it builds the React app, serves it from Express, and exposes the API on the same origin. Push the project to a GitHub repository, create a new Render Blueprint from `render.yaml`, and set `MONGODB_URI` to a MongoDB Atlas connection string. Render supplies `PORT` automatically.
+   ```sh
+   npm install
+   ```
 
-Create the MongoDB database in Atlas and allow connections from the Render service. Keep the connection string in Render’s environment settings; do not commit it to the repository.
+2. Copy `server/.env.example` to `server/.env` and set `MONGODB_URI` to your database connection string. The other values in the example file are suitable for local development.
 
-The API seeds a small set of sample listings the first time it connects to an empty database. Use the event form in the app to publish events; each listing supports RSVP and attendee count updates.
+3. Start the client and API:
+
+   ```sh
+   npm run dev
+   ```
+
+4. Open the Vite address printed in the terminal. The client runs on port 5173 and sends `/api` requests to the Express server on port 5000.
+
+## API
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `GET` | `/api/health` | Check the API and database connection |
+| `GET` | `/api/events` | List upcoming events |
+| `GET` | `/api/events/:id` | Get one event |
+| `POST` | `/api/events` | Publish an event |
+| `POST` | `/api/events/:id/rsvp` | RSVP to an event |
+
+## Deploy on Render
+
+The root `render.yaml` configures one web service for the client and API. To deploy from your own fork, connect the repository in Render and create a Blueprint from that file. Add `MONGODB_URI` as a secret environment variable in Render. In Atlas, allow connections from the service's outbound IP addresses.
+
+Keep database credentials in environment settings. Do not put them in source files or commit them to Git.
